@@ -30,7 +30,6 @@ RUN npm install --only=production
 # Copy built code and Prisma schema
 COPY --from=builder /app/dist ./dist
 COPY --from=builder /app/prisma ./prisma
-COPY --from=builder /app/node_modules ./node_modules
 
 # Start the app
 CMD ["node", "dist/main"]
