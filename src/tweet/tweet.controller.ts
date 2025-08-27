@@ -1,7 +1,8 @@
 import { Controller, Get, Post, Body, Patch, Param, Delete, Query, UseGuards, Req, Put, ParseIntPipe } from '@nestjs/common';
 import { ApiTags, ApiOperation, ApiResponse, ApiBearerAuth } from '@nestjs/swagger';
-import { TweetService } from './tweet.service';
 import { Request } from 'express';
+
+import { TweetService } from './tweet.service';
 
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 import { OwnTweetGuard } from '../auth/guards/own-tweet.guard';
@@ -16,15 +17,29 @@ export class TweetController {
 
     constructor(private readonly tweetService: TweetService) { }
 
+    @Get('paginated')
+    @UseGuards(JwtAuthGuard)
+    @ApiOperation({ summary: 'Fetch paginated Tweets', description: 'Retrieve all tweets in a paginated format using `page` and `limit` query parameters.' })
+    @ApiResponse({ status: 200 })
+    async fetchPaginatedTweets(
+        @Query('page', ParseIntPipe) page?: number,
+        @Query('limit', ParseIntPipe) limit?: number,
+    ) {
+        const pageNumber = page ?? 1;    // default page 1
+        const pageSize = limit ?? 10;    // default limit 10
+
+        return this.tweetService.getTweetsPaginated(pageNumber, pageSize);
+    }
+
     @Get('')
     @ApiOperation({ summary: 'Fetch all Tweets' })
     @ApiResponse({ status: 200 })
-    findAllEmployees() {
-        console.log("Fetching all tweets...");
+    fetchAllTweets() {
         return this.tweetService.getAllTweets();
     }
 
     @Get(':id')
+    @UseGuards(JwtAuthGuard)
     @ApiOperation({ summary: 'Fetch a single Tweet by Id' })
     async fetchById(@Param('id', ParseIntPipe) id: number) {
         return this.tweetService.getTweetById(id);
@@ -60,16 +75,4 @@ export class TweetController {
         return this.tweetService.deleteTweet(Number(id));
     }
 
-    @Post('paginated')
-    async fetchPaginated(
-        @Body('page') pageRaw?: number,
-        @Body('limit') limitRaw?: number,
-    ) {
-        const page = pageRaw ?? 1;    // default page 1
-        const limit = limitRaw ?? 10; // default limit 10
-
-        console.log('Page:', page, 'Limit:', limit);
-
-        return this.tweetService.getTweetsPaginated(page, limit);
-    }
 }

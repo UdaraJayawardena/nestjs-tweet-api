@@ -1,5 +1,7 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
+
 import { PrismaService } from 'src/prisma/prisma.service';
+
 import { CreateTweetDto } from './dto/create-tweet';
 @Injectable()
 export class TweetService {
@@ -32,7 +34,7 @@ export class TweetService {
         return listOftweets;
     }
 
-    // Fetch a single Tweet by ID
+    // Fetch a single Tweet by Id
     async getTweetById(id: number) {
         const tweet = await this.prisma.tweet.findUnique({
             where: { id }
@@ -52,7 +54,7 @@ export class TweetService {
         });
     }
 
-    // Fetch tweets with Pagination
+    // Fetch Tweets with Pagination
     async getTweetsPaginated(page: number = 1, limit: number = 10) {
         const skip = (page - 1) * limit;
 
