@@ -6,10 +6,12 @@ import { TweetController } from './tweet/tweet.controller';
 import { AppService } from './app.service';
 import { TweetService } from './tweet/tweet.service';
 import { PrismaService } from './prisma/prisma.service';
+import { TweetModule } from './tweet/tweet.module';
 
 @Module({
-  imports: [],
+  imports: [TweetModule],
   controllers: [AppController, TweetController],
   providers: [AppService, PrismaService, TweetService],
 })
-export class AppModule {}
+
+export class AppModule { }
