@@ -71,5 +71,5 @@ $ sudo docker compose up --build
 ## API Documentation
 
 ```bash
-http://localhost:3000/api/docs
+http://localhost:3010/api/docs
 ```
