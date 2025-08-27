@@ -1,35 +1,34 @@
-# Stage 1: Build (Development)
+# Stage 1: Build
 FROM node:20-alpine AS builder
 
 WORKDIR /app
 
-# Copy package files and install dependencies
+# Install dependencies
 COPY package*.json ./
-RUN npm install
+RUN npm install --legacy-peer-deps
 
-# Copy the rest of the source code
-COPY . .
-
-# Generate Prisma client and apply migrations
+# Copy Prisma schema and generate client
+COPY prisma ./prisma
 RUN npx prisma generate
-# For dev, you can run migrate dev with a dummy name; in prod use migrate deploy
-# RUN npx prisma migrate dev --name init --skip-seed
 
-# Build the NestJS app
+# Copy rest of the code and build
+COPY . .
 RUN npm run build
+
 
 # Stage 2: Production
 FROM node:20-alpine
 
 WORKDIR /app
 
-# Copy package files and install only production deps
+# Install only production deps
 COPY package*.json ./
 RUN npm install --only=production
 
-# Copy built code and Prisma schema
+# Copy built app and Prisma client
 COPY --from=builder /app/dist ./dist
 COPY --from=builder /app/prisma ./prisma
+COPY --from=builder /app/node_modules/.prisma ./node_modules/.prisma
 
-# Start the app
+# Start app
 CMD ["node", "dist/main"]
