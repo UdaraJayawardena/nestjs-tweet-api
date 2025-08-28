@@ -71,11 +71,12 @@ Before running on Docker, configure the required environment variables.
 3. Make sure the docker-compose.yml file is outisde of both service folders
 
 4. Folder Structure will be Look like this
-
+```bash
 ├── nestjs-micro-backend # Root Folder
 │ ├── nestjs-user-api # User API Service
 │ ├── nestjs-tweet-api # Tweet API Service
 └── docker-compose.yml # Docker Compose File
+```
 
 5. Run the Docker Compose File 
 
