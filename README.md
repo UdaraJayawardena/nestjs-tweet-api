@@ -44,13 +44,17 @@ Before running the project, configure the required environment variables.
 
 3. Make sure the .env file is in the root directory of the project.
 
-### Step 3 - Run Database Migrations
+## Local Development Setup
+Follow the steps below to run your project locally without using Docker.
+
+### Step 2.1 - Run Database Migrations
 Run the following commands to apply migrations and generate prisma client:
 
 ```bash
+npm run prisma:migrate
 npm run prisma:generate
 ```
-### Step 4 - Compile and Run the Project
+### Step 2.2 - Compile and Run the Project
 
 ```bash
 # standard start
@@ -59,8 +63,10 @@ $ npm run start
 # starts in watch mode
 $ npm run start:dev
 ```
+## Running the Project using Docker
+Follow the steps below to run your project with Docker Compose.
 
-## Run with Docker Compose
+## Step 2.1 - Run with Docker Compose
 Before running on Docker, configure the required environment variables.
 
 1. Create a root folder for both the user-service and tweet-service.
