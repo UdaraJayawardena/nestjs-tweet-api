@@ -72,9 +72,21 @@ Before running on Docker, configure the required environment variables.
 
 4. Folder Structure will be Look like this
 ```bash
-├── nestjs-micro-backend # Root Folder
-│ ├── nestjs-user-api # User API Service
+├── nestjs-micro-backend # Root folder
+│ ├── nestjs-user-api # User API service
+│   ├── src/ # Source code
+│   ├── dist/  # Compiled code (after build)
+│   ├── prisma/ # Prisma schema & migrations
+│   ├── package.json
+│   ├── tsconfig.json
+│   └── Dockerfile
 │ ├── nestjs-tweet-api # Tweet API Service
+│   ├── src/ # Source code
+│   ├── dist/  # Compiled code (after build)
+│   ├── prisma/ # Prisma schema & migrations
+│   ├── package.json
+│   ├── tsconfig.json
+│   └── Dockerfile
 └── docker-compose.yml # Docker Compose File
 ```
 
