@@ -51,7 +51,7 @@ Run the following commands to apply migrations and generate prisma client:
 npm run prisma:migrate
 npm run prisma:generate
 ```
-## Step 4 - Compile and Run the Project
+### Step 4 - Compile and Run the Project
 
 ```bash
 # standard start
@@ -62,12 +62,27 @@ $ npm run start:dev
 ```
 
 ## Run with Docker Compose
+Before running on Docker, configure the required environment variables.
+
+1. Create a Root Folder for both user-service and tweet-service.
+
+2. Add the docker-compose.yml file to that Folder
+
+3. Make sure the docker-compose.yml file is outisde of both service folders
+
+4. Folder Structure will be Look like this
+
+├── nestjs-micro-backend # Root Folder
+│ ├── nestjs-user-api # User API Service
+│ ├── nestjs-tweet-api # Tweet API Service
+└── docker-compose.yml # Docker Compose File
+
+5. Run the Docker Compose File 
 
 ```bash
-# docker compose
-$ sudo docker compose up --build
-
+$ sudo docker compose up --build -d
 ```
+
 ## API Documentation
 
 ```bash
