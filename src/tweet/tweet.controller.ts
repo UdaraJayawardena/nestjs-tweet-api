@@ -32,6 +32,7 @@ export class TweetController {
     }
 
     @Get('')
+    @UseGuards(JwtAuthGuard)
     @ApiOperation({ summary: 'Fetch all Tweets' })
     @ApiResponse({ status: 200 })
     fetchAllTweets() {

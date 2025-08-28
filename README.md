@@ -87,7 +87,11 @@ Before running on Docker, configure the required environment variables.
 └── docker-compose.yml # Docker Compose file
 ```
 
-5. Run the Docker Compose File 
+5. Build each project using the following command
+```bash
+$ npm run build
+```
+6. Run the Docker Compose file to build the user-service, tweet-service, and postgres-db
 
 ```bash
 $ sudo docker compose up --build -d
