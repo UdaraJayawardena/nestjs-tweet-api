@@ -48,7 +48,6 @@ Before running the project, configure the required environment variables.
 Run the following commands to apply migrations and generate prisma client:
 
 ```bash
-npm run prisma:migrate
 npm run prisma:generate
 ```
 ### Step 4 - Compile and Run the Project
@@ -74,20 +73,18 @@ Before running on Docker, configure the required environment variables.
 ```bash
 ├── nestjs-micro-backend # Root folder
 │ ├── nestjs-user-api # User API service
-│   ├── src/ # Source code
-│   ├── dist/  # Compiled code (after build)
-│   ├── prisma/ # Prisma schema & migrations
+│   ├── src/ 
+│   ├── dist/
+│   ├── prisma/
 │   ├── package.json
-│   ├── tsconfig.json
 │   └── Dockerfile
-│ ├── nestjs-tweet-api # Tweet API Service
-│   ├── src/ # Source code
-│   ├── dist/  # Compiled code (after build)
-│   ├── prisma/ # Prisma schema & migrations
+│ ├── nestjs-tweet-api # Tweet API service
+│   ├── src/ 
+│   ├── dist/
+│   ├── prisma/
 │   ├── package.json
-│   ├── tsconfig.json
 │   └── Dockerfile
-└── docker-compose.yml # Docker Compose File
+└── docker-compose.yml # Docker Compose file
 ```
 
 5. Run the Docker Compose File 
