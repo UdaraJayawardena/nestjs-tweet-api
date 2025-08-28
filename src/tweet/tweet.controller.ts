@@ -1,0 +1,79 @@
+import { Controller, Get, Post, Body, Patch, Param, Delete, Query, UseGuards, Req, Put, ParseIntPipe } from '@nestjs/common';
+import { ApiTags, ApiOperation, ApiResponse, ApiBearerAuth } from '@nestjs/swagger';
+import { Request } from 'express';
+
+import { TweetService } from './tweet.service';
+
+import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
+import { OwnTweetGuard } from '../auth/guards/own-tweet.guard';
+
+import { CreateTweetDto } from './dto/create-tweet';
+import { UpdateTweetDto } from './dto/update-tweet';
+
+@ApiTags('Tweet')
+@ApiBearerAuth()
+@Controller('tweets')
+export class TweetController {
+
+    constructor(private readonly tweetService: TweetService) { }
+
+    @Get('paginated')
+    @UseGuards(JwtAuthGuard)
+    @ApiOperation({ summary: 'Fetch paginated Tweets', description: 'Retrieve all tweets in a paginated format using `page` and `limit` query parameters.' })
+    @ApiResponse({ status: 200 })
+    async fetchPaginatedTweets(
+        @Query('page', ParseIntPipe) page?: number,
+        @Query('limit', ParseIntPipe) limit?: number,
+    ) {
+        const pageNumber = page ?? 1;    // default page 1
+        const pageSize = limit ?? 10;    // default limit 10
+
+        return this.tweetService.getTweetsPaginated(pageNumber, pageSize);
+    }
+
+    @Get('')
+    @UseGuards(JwtAuthGuard)
+    @ApiOperation({ summary: 'Fetch all Tweets' })
+    @ApiResponse({ status: 200 })
+    fetchAllTweets() {
+        return this.tweetService.getAllTweets();
+    }
+
+    @Get(':id')
+    @UseGuards(JwtAuthGuard)
+    @ApiOperation({ summary: 'Fetch a single Tweet by Id' })
+    async fetchById(@Param('id', ParseIntPipe) id: number) {
+        return this.tweetService.getTweetById(id);
+    }
+
+    @Post('create')
+    @UseGuards(JwtAuthGuard)
+    @ApiOperation({ summary: 'Create a new Tweet' })
+    @ApiResponse({ status: 200, description: 'Successfully created' })
+    createTweet(@Body() body: CreateTweetDto,
+        @Req() request: Request) {
+        const userId = request.user.userId
+
+        return this.tweetService.createTweet(userId, body);
+    }
+
+    @Put('update/:id')
+    @UseGuards(JwtAuthGuard, OwnTweetGuard)
+    @ApiOperation({ summary: 'Update a Tweet' })
+    @ApiResponse({ status: 200, description: 'Successfully Updated' })
+    async updateTweet(
+        @Param('id') id: string,
+        @Body() body: UpdateTweetDto
+    ) {
+        return this.tweetService.updateTweet(Number(id), body.tweet);
+    }
+
+    @Delete('delete/:id')
+    @UseGuards(JwtAuthGuard, OwnTweetGuard)
+    @ApiOperation({ summary: 'Delete a Tweet' })
+    @ApiResponse({ status: 200, description: 'Successfully Deleted' })
+    async deleteTweet(@Param('id') id: string) {
+        return this.tweetService.deleteTweet(Number(id));
+    }
+
+}
